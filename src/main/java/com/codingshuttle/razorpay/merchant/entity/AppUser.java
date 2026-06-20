@@ -1,10 +1,12 @@
 package com.codingshuttle.razorpay.merchant.entity;
 
+import com.codingshuttle.razorpay.common.enums.Environment;
 import com.codingshuttle.razorpay.common.enums.UserRole;
 import jakarta.persistence.*;
 
 import java.util.UUID;
-
+@Entity
+@Table(name = "api_user")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)

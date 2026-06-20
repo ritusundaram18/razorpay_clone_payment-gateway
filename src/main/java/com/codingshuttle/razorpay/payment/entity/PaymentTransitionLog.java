@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Entity
+@Table(name = "payment_transition_log")
 public class PaymentTransitionLog {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,12 +22,13 @@ public class PaymentTransitionLog {
     private PaymentStatus fromStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="to_status",nullable = false,length = 20)
+    @Column(name = "event", nullable = false, length = 30)
     private PaymentEvent event;
 
     @Enumerated(EnumType.STRING)
     @Column(name="to_status",nullable = false,length = 20)
     private PaymentStatus toStatus;
+
 
     @Column(name = "actor",length = 50)
     private  String actor; // Could be system, user, or external service

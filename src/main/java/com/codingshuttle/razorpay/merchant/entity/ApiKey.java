@@ -1,10 +1,12 @@
 package com.codingshuttle.razorpay.merchant.entity;
 
+import com.codingshuttle.razorpay.common.enums.Environment;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Entity
+@Table(name = "api_key")
 public class ApiKey {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)
@@ -22,7 +24,7 @@ public class ApiKey {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 10)
-    private String environment;
+    private Environment environment;
     @Column(nullable = false) boolean enabled=true;
      private LocalDateTime lastUsedAt;
      private LocalDateTime rotatedAt;
