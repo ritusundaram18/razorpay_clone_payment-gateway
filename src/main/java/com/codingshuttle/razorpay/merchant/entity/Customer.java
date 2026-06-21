@@ -1,6 +1,7 @@
 package com.codingshuttle.razorpay.merchant.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -8,6 +9,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customer")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
 public class Customer
 {
     @Id

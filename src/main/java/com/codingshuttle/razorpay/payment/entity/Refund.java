@@ -1,9 +1,10 @@
-package com.codingshuttle.razorpay.merchant.entity;
+package com.codingshuttle.razorpay.payment.entity;
 
 import com.codingshuttle.razorpay.common.entity.Money;
 import com.codingshuttle.razorpay.common.enums.RefunsdStatus;
 import com.codingshuttle.razorpay.payment.entity.Payment;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -12,6 +13,12 @@ import java.util.Map;
 import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
 public class Refund {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)
