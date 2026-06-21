@@ -57,6 +57,9 @@ public class Settlement {
     @Column(nullable = false, length = 20)
     private SettlementStatus status;
 
+
+
+
     @Column(nullable = false, length = 50)
     private String bankReference;
 

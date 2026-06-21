@@ -8,7 +8,7 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
-
+@Entity
 public class WebhookEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
