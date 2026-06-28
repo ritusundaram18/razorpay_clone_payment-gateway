@@ -1,5 +1,6 @@
 package com.codingshuttle.razorpay.merchant.entity;
 
+import com.codingshuttle.razorpay.common.entity.BaseEntity;
 import com.codingshuttle.razorpay.common.enums.Environment;
 import com.codingshuttle.razorpay.common.enums.UserRole;
 import jakarta.persistence.*;
@@ -7,14 +8,17 @@ import lombok.*;
 
 import java.util.UUID;
 @Entity
-@Table(name = "api_user")
+@Table(name = "api_user",
+indexes = {
+        @Index(name="idx_api_user_merchant_id", columnList = "merchant_id"),
+})
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 
-public class AppUser {
+public class AppUser extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.UUID)
     private UUID id;
