@@ -5,6 +5,9 @@ import com.codingshuttle.razorpay.common.entity.Money;
 import com.codingshuttle.razorpay.common.enums.PaymentMethod;
 import com.codingshuttle.razorpay.common.enums.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -14,6 +17,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "payment")
+@Builder
+@Getter
+@Setter
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
