@@ -1,15 +1,17 @@
 package com.codingshuttle.razorpay.payment.dto.response;
 
+
+
 import com.codingshuttle.razorpay.common.entity.Money;
+import com.codingshuttle.razorpay.common.enums.OrderStatus;
 import com.codingshuttle.razorpay.common.enums.PaymentMethod;
 import com.codingshuttle.razorpay.common.enums.PaymentStatus;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public record PaymentResponse(
         UUID id,
         UUID orderId,
@@ -23,5 +25,4 @@ public record PaymentResponse(
         LocalDateTime capturedAt,
         LocalDateTime createdAt
 ) {
-
 }

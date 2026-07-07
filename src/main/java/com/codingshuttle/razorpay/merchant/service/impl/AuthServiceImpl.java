@@ -7,6 +7,7 @@ import com.codingshuttle.razorpay.merchant.dto.Response.MerchantResponse;
 import com.codingshuttle.razorpay.merchant.dto.request.MerchantSignupRequest;
 import com.codingshuttle.razorpay.merchant.entity.AppUser;
 import com.codingshuttle.razorpay.merchant.entity.Merchant;
+import com.codingshuttle.razorpay.merchant.mapper.MerchantMapper;
 import com.codingshuttle.razorpay.merchant.repository.AppUserRepository;
 import com.codingshuttle.razorpay.merchant.repository.MerchantRepository;
 import com.codingshuttle.razorpay.merchant.service.AuthService;
@@ -20,20 +21,23 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final MerchantRepository merchantRepository;
     private final AppUserRepository appUserRepository;
+    private final MerchantMapper merchantMapper;
 
     @Override
     public MerchantResponse signup(MerchantSignupRequest request) {
-        if(merchantRepository.existsByEmail(request.email())){
-            throw new DuplicateResourceException("DUPLICATE_MERCHANT_EMAIL","Merchant with email already exists"+request.email());
+        if (merchantRepository.existsByEmail(request.email())) {
+            throw new DuplicateResourceException("DUPLICATE_MERCHANT_EMAIL", "Merchant with email already exists" + request.email());
         }
-        Merchant merchant = Merchant.builder()
-                .businessName(request.businessName())
-                .businessType(request.businessType())
-                .name(request.name())
-                .email(request.email())
-                .status(MerchantStatus.PENDING_KYC)
-                .build();
-        merchant=merchantRepository.save(merchant);
+        Merchant merchant = merchantMapper.toEntityFromSignUpRequest(request);
+        merchant.setStatus(MerchantStatus.PENDING_KYC);
+//        Merchant merchant = Merchant.builder()
+//                .businessName(request.businessName())
+//                .businessType(request.businessType())
+//                .name(request.name())
+//                .email(request.email())
+//                .status(MerchantStatus.PENDING_KYC)
+//                .build();
+        merchant = merchantRepository.save(merchant);
 
         AppUser appUser = AppUser.builder()
                 .email(request.email())
@@ -43,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         appUserRepository.save(appUser);
 
-        return  new MerchantResponse((merchant.getId()),merchant.getName(),merchant.getEmail(),merchant.getBusinessName(),merchant.getStatus());
+//        return  new MerchantResponse((merchant.getId()),merchant.getName(),merchant.getEmail(),merchant.getBusinessName(),merchant.getStatus());
+        return merchantMapper.toResponse(merchant);
     }
 }

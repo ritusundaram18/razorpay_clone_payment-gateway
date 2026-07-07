@@ -10,6 +10,7 @@ import com.codingshuttle.razorpay.payment.entity.OrderRecord;
 import com.codingshuttle.razorpay.payment.entity.Payment;
 import com.codingshuttle.razorpay.payment.gateway.PaymentGatewayRouter;
 import com.codingshuttle.razorpay.payment.gateway.dto.PaymentRequest;
+import com.codingshuttle.razorpay.payment.gateway.dto.PaymentResult;
 import com.codingshuttle.razorpay.payment.repository.OrderRepository;
 import com.codingshuttle.razorpay.payment.repository.PaymentRepository;
 import com.codingshuttle.razorpay.payment.service.PaymentService;
@@ -62,8 +63,18 @@ public class PaymentServiceImpl implements PaymentService {
                 order.getAmount(),
                 request.paymentMethod(),
                 request.paymentMethodDetails());
-        paymentGatewayRouter.initiatePayment(paymentRequest);
+        PaymentResult  result=paymentGatewayRouter.initiatePayment(paymentRequest);
+
+        if(result instanceof PaymentResult.Pending pending) {
+        }
+        else if(result instanceof PaymentResult.Failure failure){
+            payment.setStatus(PaymentStatus.FAILED);
+            payment.setErrorCode(failure.errorCode());
+            payment.setErrorDescription(failure.errorDescription());
+
+        }
         return null;
+
 
 
     }

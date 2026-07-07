@@ -1,13 +1,13 @@
 package com.codingshuttle.razorpay.common.exception;
 
-import lombok.Getter;
 
-@Getter
+import com.codingshuttle.razorpay.common.utl.RandomizerUtil;
+
 public class BusinessRuleViolationException extends RuntimeException {
-
     private final String errorCode;
 
-    public BusinessRuleViolationException(String errorCode, String message) {
+    public BusinessRuleViolationException( String errorCode,String message) {
+
         super(message);
         this.errorCode = errorCode;
     }
