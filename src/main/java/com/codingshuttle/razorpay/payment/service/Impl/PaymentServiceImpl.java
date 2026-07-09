@@ -66,6 +66,7 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentResult  result=paymentGatewayRouter.initiatePayment(paymentRequest);
 
         if(result instanceof PaymentResult.Pending pending) {
+            payment.setProcessorReference(pending.registrationRef());
         }
         else if(result instanceof PaymentResult.Failure failure){
             payment.setStatus(PaymentStatus.FAILED);
@@ -73,6 +74,9 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setErrorDescription(failure.errorDescription());
 
         }
+        payment=paymentRepository.save(payment);
+        orderRepository.save(order);
+
         return null;
 
 
