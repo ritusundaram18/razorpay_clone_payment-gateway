@@ -1,6 +1,6 @@
 package com.codingshuttle.razorpay.payment.gateway.dto;
 
-public sealed interface PaymentResult {
+public sealed interface PaymentResult permits PaymentResult.Pending, PaymentResult.Failure, PaymentResult.Success {
 
     record Pending(String registrationRef) implements PaymentResult {
     }
