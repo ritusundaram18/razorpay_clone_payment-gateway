@@ -1,5 +1,6 @@
 package com.codingshuttle.razorpay.common.exception;
 
+
 import com.codingshuttle.razorpay.common.utl.RandomizerUtil;
 
 public class BusinessRuleViolationException extends RuntimeException {

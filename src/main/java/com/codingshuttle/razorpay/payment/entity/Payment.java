@@ -6,6 +6,7 @@ import com.codingshuttle.razorpay.common.entity.Money;
 import com.codingshuttle.razorpay.common.enums.PaymentMethod;
 import com.codingshuttle.razorpay.common.enums.PaymentStatus;
 import jakarta.persistence.*;
+
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -52,6 +53,9 @@ public class Payment extends BaseEntity {
     private Map<String,Object> methodDetails;
     @Column(length = 100)
     String bankReference;
+
+    @Column(length = 100)
+    String processorReference;
 
     @Column(length = 100)
     private String errorCode;
