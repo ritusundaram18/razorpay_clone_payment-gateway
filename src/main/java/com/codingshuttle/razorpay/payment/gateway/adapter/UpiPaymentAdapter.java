@@ -19,7 +19,6 @@ import java.util.UUID;
 public class UpiPaymentAdapter implements PaymentAdapter {
     private final PaymentProcessorRouter paymentProcessorRouter;
 
-    private final UpiPaymentAdapter upiPaymentAdapter;
     @Override
     public PaymentResult initiate(PaymentRequest request) {
         log.info("Initiate payment UPI,payment:{}", request.paymentId());

@@ -2,10 +2,17 @@ package com.codingshuttle.razorpay.vault.entity;
 
 import com.codingshuttle.razorpay.common.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Entity
+@Table(name = "card_token")
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CardToken extends BaseEntity {
 
     @Id
@@ -15,7 +22,7 @@ public class CardToken extends BaseEntity {
     private  String token;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @Column(name = "vault_card_id",nullable = false)
+    @JoinColumn(name = "vault_card_id", nullable = false)
     private  VaultCard vaultCard;
 
     @Column(nullable = false)
