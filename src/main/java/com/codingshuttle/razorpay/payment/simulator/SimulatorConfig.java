@@ -23,7 +23,6 @@ public class SimulatorConfig {
     public SimulatorConfig.MethodSimulatorConfig configFor(PaymentMethod method) {
         return methods.getOrDefault(method.name(), new MethodSimulatorConfig());
     }
-
     @Getter
     @Setter
     public static  class MethodSimulatorConfig{

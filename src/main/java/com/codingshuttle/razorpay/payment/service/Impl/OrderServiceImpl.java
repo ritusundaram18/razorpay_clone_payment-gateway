@@ -41,7 +41,8 @@ public class OrderServiceImpl implements OrderService {
     @Value("${payment.order.default-order-expiry-minutes:30}")
     private int defaultOrderExpiryMinutes;
 
-    @Override
+    @Override    @Transactional
+
     public OrderResponse create(UUID merchantId, CreateOrderRequest request) {
         if (request.receipt() != null && orderRepository.existsByMerchantIdAndReceipt(merchantId, request.receipt())) {
             throw new DuplicateResourceException("ORDER_RECEIPT_DUPLICATE", "Order with receipt already exists: " + request.receipt());
@@ -59,6 +60,17 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         order = orderRepository.save(order);
+
+        System.out.println("Before save");
+
+        order = orderRepository.save(order);
+
+        System.out.println("After save: " + order.getId());
+
+        orderRepository.flush();
+
+        System.out.println("After flush");
+
 
 //// TODO:        publish kafka event about order creation
         return orderMapper.toResponse(order);
