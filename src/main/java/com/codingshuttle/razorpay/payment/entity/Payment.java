@@ -41,6 +41,7 @@ public class Payment extends BaseEntity {
 
     @Column(nullable = false,length = 100)
     private String idempotencyKey;
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
     private PaymentStatus status;
@@ -61,7 +62,7 @@ public class Payment extends BaseEntity {
     private String errorCode;
     @Column(length = 255)
     private String errorDescription;
-    private String authorizedAt;
+    private LocalDateTime authorizedAt;
     private LocalDateTime capturedAt;
     private LocalDateTime failedAt;
     private LocalDateTime refundedAt;

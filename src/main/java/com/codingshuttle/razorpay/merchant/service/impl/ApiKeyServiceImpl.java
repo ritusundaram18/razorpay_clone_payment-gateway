@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class ApiKeyServiceImpl implements ApiKeyService {
+public class   ApiKeyServiceImpl implements ApiKeyService {
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
     private final ApiKeyMapper apiKeyMapper;
@@ -49,14 +49,16 @@ public class ApiKeyServiceImpl implements ApiKeyService {
                 .build();
 
         apiKey = apiKeyRepository.save(apiKey);
+        log.info("Saved ApiKey id={}, keyId={}",
+                apiKey.getId(), apiKey.getKeyId());
 
-        return apiKeyMapper.toCreateResponse(apiKey);
-//        return new ApiKeyCreateResponse(
-//                apiKey.getId(),
-//                keyId,
-//                rawSecret,
-//                request.environment()
-//        );
+//        return apiKeyMapper.toCreateResponse(apiKey);
+        return new ApiKeyCreateResponse(
+                apiKey.getId(),
+                keyId,
+                rawSecret,
+                request.environment()
+        );
     }
 
     @Override
