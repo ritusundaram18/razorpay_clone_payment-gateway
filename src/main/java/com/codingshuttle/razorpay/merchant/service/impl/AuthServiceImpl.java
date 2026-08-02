@@ -35,6 +35,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public MerchantResponse signup(MerchantSignupRequest request) {
+
+        log.info("Inside signup service");
+
+
         if (merchantRepository.existsByEmail(request.email())) {
             throw new DuplicateResourceException("DUPLICATE_MERCHANT_EMAIL", "Merchant with email already exists" + request.email());
         }

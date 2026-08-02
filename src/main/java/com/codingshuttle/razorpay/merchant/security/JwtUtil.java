@@ -22,23 +22,32 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String email, UUID merchantId,String role) {
+    public String generateAccessToken(String email, UUID merchantId, String role) {
         Instant now = Instant.now();
         return io.jsonwebtoken.Jwts.builder()
                 .setSubject(email)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(60*100)))
+                .expiration(Date.from(now.plusSeconds(60 * 100)))
                 .claim("merchantId", merchantId)
                 .claim("role", role)
                 .signWith(getSecretKey())
                 .compact();
     }
+
     public Claims verifyAccessToken(String accessToken) {
         return Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(accessToken)
                 .getPayload();
+    }
+
+    public String extractRole(Claims claims) {
+        return claims.get("role", String.class);
+    }
+
+        public String extractMerchantId(Claims claims) {
+        return claims.get("merchantId", String.class);
     }
 
 }
