@@ -46,4 +46,6 @@ public class GlobalExceptionHandler {
                 ))
                 .body(ErrorResponse.of("RATE_LIMIT_EXCEEDED", ex.getMessage()));
     }
+
+
 }
