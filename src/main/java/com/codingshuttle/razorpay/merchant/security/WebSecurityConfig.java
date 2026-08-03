@@ -22,6 +22,7 @@ public class WebSecurityConfig {
     private static final String[] API_KEY_ROUTES={"/v1/orders/**","/v1/payments/**","/v1/vault/**"};
 
     private final  JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ApiKeyAuthenticationFilter apiKeyAuthenticationFilter;
 
     @Bean
     @Order(1)
@@ -39,7 +40,7 @@ public class WebSecurityConfig {
     }
     @Bean
     @Order(2)
-    public SecurityFilterChain apiKeyChain(HttpSecurity http){
+    public SecurityFilterChain apiKeyChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher(API_KEY_ROUTES)
                 .csrf(csrf -> csrf.disable())
@@ -47,7 +48,7 @@ public class WebSecurityConfig {
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(apiKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
