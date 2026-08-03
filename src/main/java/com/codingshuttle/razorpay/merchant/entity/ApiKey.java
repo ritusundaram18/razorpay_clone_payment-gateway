@@ -46,16 +46,14 @@ public class ApiKey extends BaseEntity {
 
 
     @Column(nullable = false)
-            @Builder.Default
+    @Builder.Default
     boolean enabled = true;
 
     private LocalDateTime lastUsedAt;
     private LocalDateTime rotatedAt;
     private LocalDateTime gracePeriodExpiresAt;
 
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
+    public boolean isInGracePeriod() {
+        return gracePeriodExpiresAt != null && LocalDateTime.now().isBefore(gracePeriodExpiresAt);
+    }
 }
