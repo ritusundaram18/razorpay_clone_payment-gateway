@@ -21,11 +21,11 @@ public class CardToken extends BaseEntity {
     @Column(nullable = false,length = 50)
     private  String token;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "vault_card_id", nullable = false)
     private  VaultCard vaultCard;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)//in L17 they removed it
     private  UUID customer;
     @Column(nullable = false)
     private  UUID merchant;
