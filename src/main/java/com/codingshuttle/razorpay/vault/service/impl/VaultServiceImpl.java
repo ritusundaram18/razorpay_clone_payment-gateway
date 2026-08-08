@@ -63,11 +63,18 @@ public class VaultServiceImpl implements VaultService {
                 .cardholderName(request.cardHolderName())
                 .build());
         String token="tok"+ RandomizerUtil.randomBase64(32);
+        cardTokenRepository.save(CardToken.builder()
+                .vaultCard(vaultCard)
+                .token(token)
+                .customer(request.customerId())
+                .merchant(merchantId)
+                .build());
 
         return new TokenizeResponse(token,lastFour,cardBrand,request.expiryMonth(),request.expiryYear());
     }
 
     @Override
+    @Transactional
     public PaymentProcessorResponse charge(UUID paymentId,String token, Money amount, Map<String, Object> methodDetails) {
        CardToken cardToken=cardTokenRepository.findByTokenAndRevokedAtIsNull(token).orElseThrow(() -> new ResourceNotFoundException("CardToken",token));
 

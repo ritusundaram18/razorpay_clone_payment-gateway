@@ -35,7 +35,7 @@ public class Customer extends BaseEntity
     @Column(length = 200)
     private String email;
     @Column(length = 200)
-    private String contactNumber;
+    private String phone;
     private LocalDateTime deletedAt;
 
 }

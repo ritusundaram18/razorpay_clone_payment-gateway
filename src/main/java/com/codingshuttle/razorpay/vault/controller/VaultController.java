@@ -17,12 +17,12 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/v1/vault")
 public class VaultController {
-    private final VaultService vaultService;private final MerchantContext merchantContext;
+    private final VaultService vaultService;
+    private final MerchantContext merchantContext;
 //    UUID merchantId = UUID.fromString("f3e1c5d0-8b6a-4c9e-9f1b-2d3e4f5a6b7c");//TODO: replace with merchant context
 
-//    private final MerchantContext merchantContext;
 
     @PostMapping("/tokenize")
     public ResponseEntity<TokenizeResponse> tokenize(@Valid @RequestBody TokenizeRequest request) {
