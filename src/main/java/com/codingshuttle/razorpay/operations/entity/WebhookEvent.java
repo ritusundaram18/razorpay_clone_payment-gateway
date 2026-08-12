@@ -2,6 +2,7 @@ package com.codingshuttle.razorpay.operations.entity;
 
 import com.codingshuttle.razorpay.common.enums.WebhookEventStatus;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -9,6 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 @Entity
+@Table(name = "webhook_event")
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebhookEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,9 +43,11 @@ public class WebhookEvent {
 
     @Column(nullable = false)
     private Integer attempts = 0;
+    private LocalDateTime nextRetryAt;
     private LocalDateTime lastAttemptAt;
-    private LocalDateTime lastResponseCode;
-    private LocalDateTime lastResponseBody;
+    private Integer lastResponseCode;
+    @Column(length = 1000)
+    private String lastResponseBody;
     private LocalDateTime deliveredAt;
 
 }

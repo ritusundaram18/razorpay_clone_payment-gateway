@@ -39,6 +39,10 @@ spring:
             spring.json.use.type.headers: false
             spring.json.value.default.type: java.util.LinkedHashMap
 
+threads:
+  virtual:
+    enabled: true
+
 vault:
   master-key: NqcfbJG1zkOfBsNF/wPmlLA7aaOvh9RCHTYYgY/9A2Q=
 
@@ -88,7 +92,12 @@ app:
       payment: payments.events
       order: orders.events
       refund: refund.events
-      settlement: settlement.events
+      settlement: settlement.eventsg
+  webhook:
+    delivery:
+      redis-key: "webhook-retry"
+      poll-batch-size: 100
+
 
 #management:
 #  endpoints:
