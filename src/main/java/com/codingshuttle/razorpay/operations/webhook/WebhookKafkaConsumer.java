@@ -41,11 +41,21 @@ public class WebhookKafkaConsumer {
 
     public void onWebhookEvent(ConsumerRecord<String, Map<String, Object>> record, Acknowledgment ack) {
         try {
+            log.info("========== WEBHOOK CONSUMER STARTED ==========");
+            log.info("Topic: {}", record.topic());
+            log.info("Offset: {}", record.offset());
+            log.info("Kafka record value: {}", record.value());
+
         Map<String, Object> envelope = record.value();
         Map<String, Object> data = (Map<String, Object>) envelope.get("data");
         String eventType = (String) envelope.get("eventType");
 
+
+            log.info("Event type: {}", eventType);
+            log.info("Data: {}", data);
+
         Object merchantIdRaw = data.get("merchantId");
+            log.info("merchantIdRaw: {}", merchantIdRaw);
         if (merchantIdRaw == null) {
             log.warn("No merchantId was found, skipping event: {}", eventType);
             ack.acknowledge();
@@ -62,8 +72,12 @@ public class WebhookKafkaConsumer {
         }
         Map<String, Object> signatureData = Map.of("event", eventType, "payload", data);
         String signatureJson = objectMapper.writeValueAsString(signatureData);
+            log.info("Webhook targets found: {}", targets.size());
 
         for (WebhookTarget target : targets) {
+            log.info("Creating WebhookEvent for targetUrl={}",
+                    target.targetUrl());
+
             String signature = signerUtil.sign(signatureJson, target.webhookSecret());
 
             WebhookEvent webhookEvent = WebhookEvent.builder()
@@ -75,8 +89,12 @@ public class WebhookKafkaConsumer {
                     .status(WebhookEventStatus.PENDING)
                     .nextRetryAt(LocalDateTime.now())
                     .build();
+            log.info("Before WebhookEvent save: {}", webhookEvent);
 
             webhookEvent = webhookEventRepository.save(webhookEvent);
+
+            log.info("AFTER WebhookEvent save. ID={}",
+                    webhookEvent.getId());
 
             retryQueue.enqueue(webhookEvent.getId(), webhookEvent.getNextRetryAt());
             log.info("Created a webhook event with id: {}", webhookEvent.getId());
@@ -87,7 +105,7 @@ public class WebhookKafkaConsumer {
             log.error("Webhook consumer failed due to DB down, Could not process the record, offset: {}", record.offset(), dbDown);
         }
         catch (Exception logicError) {
-//            log.error("Webhook consumer failed due to logical error, Could not process the record, offset: {}", record.offset(), logicError);
+            log.error("Webhook consumer failed due to logical error, Could not process the record, offset: {}", record.offset(), logicError);
             dlqRecorder.recordConsumerFailed(record, logicError.getMessage());
             ack.acknowledge();
             //TODO: check exception for ack

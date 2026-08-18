@@ -16,6 +16,7 @@ import com.codingshuttle.razorpay.merchant.repository.WebhookConfigRepository;
 import com.codingshuttle.razorpay.merchant.service.WebhookConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.encrypt.BytesEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +34,31 @@ public class WebhookConfigServiceImpl implements WebhookConfigService, MerchantW
 
     private final MerchantRepository merchantRepository;
     private final WebhookConfigRepository merchantWebhookConfigRepository;
-    private final BytesEncryptor bytesEncryptor;
+//    private final BytesEncryptor bytesEncryptor;
+//@Qualifier("dekEncrypter")
+private final BytesEncryptor bytesEncryptor;
+
+
     private final WebhookConfigMapper webhookConfigMapper;
+
+//    private final MerchantRepository merchantRepository;
+//    private final WebhookConfigRepository merchantWebhookConfigRepository;
+//
+//    private final BytesEncryptor bytesEncryptor;
+//
+//    private final WebhookConfigMapper webhookConfigMapper;
+
+//    public WebhookConfigServiceImpl(
+//            MerchantRepository merchantRepository,
+//            WebhookConfigRepository merchantWebhookConfigRepository,
+//            @Qualifier("dekEncrypter") BytesEncryptor bytesEncryptor,
+//            WebhookConfigMapper webhookConfigMapper) {
+//
+//        this.merchantRepository = merchantRepository;
+//        this.merchantWebhookConfigRepository = merchantWebhookConfigRepository;
+//        this.bytesEncryptor = bytesEncryptor;
+//        this.webhookConfigMapper = webhookConfigMapper;
+//    }
 
     @Override
         public WebhookConfigResponse create(UUID merchantId, UpdateWebhookConfigRequest request) {
@@ -58,7 +82,13 @@ public class WebhookConfigServiceImpl implements WebhookConfigService, MerchantW
 //
         config = merchantWebhookConfigRepository.save(config);
 //
-        return webhookConfigMapper.toResponse(config, rawSecret);
+//        return webhookConfigMapper.toResponse(config, rawSecret);
+        WebhookConfigResponse response =
+                webhookConfigMapper.toResponse(config, rawSecret);
+
+        log.info("Webhook response = {}", response);
+
+        return response;
     }
 //
     @Override
@@ -105,6 +135,7 @@ public class WebhookConfigServiceImpl implements WebhookConfigService, MerchantW
                 .map(config -> {
                     byte[] cipherBytes = Base64.getDecoder().decode(config.getWebhookSecret());
                     byte[] decryptedSecretBytes = bytesEncryptor.decrypt(cipherBytes);
+//                    String toStore=Base64.getEncoder().enc
                     return new WebhookTarget(config.getId(), config.getTargetUrl(),
                             new String(decryptedSecretBytes, StandardCharsets.UTF_8));
                 })

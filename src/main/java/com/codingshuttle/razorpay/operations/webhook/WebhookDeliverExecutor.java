@@ -75,7 +75,7 @@ public class WebhookDeliverExecutor {
                 event.setStatus(WebhookEventStatus.DELIVERED);
                 event.setDeliveredAt(LocalDateTime.now());
                 webhookEventRepository.save(event);
-   //            log.info("Successfully called the merchant for webhook event: {}", webhookEventId);
+               log.info("Successfully called the merchant for webhook event: {}", webhookEventId);
                 return;
             }
 

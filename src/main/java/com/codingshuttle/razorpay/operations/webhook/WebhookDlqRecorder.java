@@ -39,6 +39,7 @@ public class WebhookDlqRecorder {
                 .build();
         dlqEventRepository.save(dlqEvent);
 
+
     }
 
     public void recordConsumerFailed(ConsumerRecord<String, Map<String, Object>> record, String error) {
