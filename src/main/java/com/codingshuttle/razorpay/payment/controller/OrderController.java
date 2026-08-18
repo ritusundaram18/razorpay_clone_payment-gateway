@@ -25,9 +25,22 @@ public class OrderController {
     private final MerchantContext merchantContext;
 //   UUID merchantId = UUID.fromString("1f6caca9-cab9-40cd-a491-a714146e5a55"); //TODO: replace it with MerchantContext
 
+//    @PostMapping
+//    public ResponseEntity<OrderResponse> create(@RequestBody @Valid CreateOrderRequest request) {
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(orderService.create(merchantContext.getMerchantId(), request));
+//    }
+
     @PostMapping
-    public ResponseEntity<OrderResponse> create(@RequestBody @Valid CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> create(
+            @RequestBody @Valid CreateOrderRequest request) {
+
+        OrderResponse orderResponse =
+                orderService.create(merchantContext.getMerchantId(), request);
+
+        System.out.println("ORDER RESPONSE = " + orderResponse);
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.create(merchantContext.getMerchantId(), request));
+                .body(orderResponse);
     }
 }

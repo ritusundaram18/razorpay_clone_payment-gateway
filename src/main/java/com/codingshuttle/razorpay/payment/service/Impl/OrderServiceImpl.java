@@ -76,16 +76,36 @@ public class OrderServiceImpl implements OrderService {
                         LocalDateTime.now().plusMinutes(defaultOrderExpiryMinutes))
                 .build();
 
+//        order = orderRepository.save(order);
+//        eventPublisher.publish(EventAggregateType.ORDER, order.getId(), "ORDER_CREATED",
+//                Map.of("orderId", order.getId(),
+//                        "merchantId", merchantId.toString(),
+//                        "orderStatus", order.getOrderStatus().name(),
+//                        "amountUnits", order.getAmount().getAmountUnits(),
+//                        "amountCurrency", order.getAmount().getCurrency()
+//                )
+//        );
+//        return orderMapper.toResponse(order);
         order = orderRepository.save(order);
-        eventPublisher.publish(EventAggregateType.ORDER, order.getId(), "ORDER_CREATED",
-                Map.of("orderId", order.getId(),
+
+        eventPublisher.publish(
+                EventAggregateType.ORDER,
+                order.getId(),
+                "ORDER_CREATED",
+                Map.of(
+                        "orderId", order.getId(),
                         "merchantId", merchantId.toString(),
                         "orderStatus", order.getOrderStatus().name(),
                         "amountUnits", order.getAmount().getAmountUnits(),
                         "amountCurrency", order.getAmount().getCurrency()
                 )
         );
-        return orderMapper.toResponse(order);
+
+        OrderResponse response = orderMapper.toResponse(order);
+
+        log.info("ORDER RESPONSE = {}", response);
+
+        return response;
     }
 
     @Override
