@@ -1,5 +1,6 @@
 package com.codingshuttle.razorpay.merchant.api;
 
+import com.codingshuttle.razorpay.common.dto.SettlementBankDetails;
 import com.codingshuttle.razorpay.common.dto.WebhookTarget;
 
 import java.util.List;
@@ -8,8 +9,12 @@ import java.util.UUID;
 //import com.codingshuttle.razorpay.common.dto.WebhookTarget;
 
 
-public interface MerchantWebhookApi {
+public interface MerchantLookupService {
 
     List<WebhookTarget> getActiveConfigsForEvent(UUID merchantId, String eventType);
+
+    List<UUID> listActiveMerchantIds();
+
+    SettlementBankDetails getSettlementBankDetails(UUID merchantId);
 
 }

@@ -42,9 +42,9 @@ spring:
         spring.json.value.default.type: java.util.LinkedHashMap
 #            spring.json.trusted.packages: "com.codingshuttle.razorpay.*"
 
-threads:
-  virtual:
-    enabled: true
+  threads:
+    virtual:
+      enabled: true
 
 vault:
   master-key: NqcfbJG1zkOfBsNF/wPmlLA7aaOvh9RCHTYYgY/9A2Q=

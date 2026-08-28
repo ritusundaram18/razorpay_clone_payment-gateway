@@ -2,9 +2,11 @@ package com.codingshuttle.razorpay.merchant.service.impl;
 
 
 
+import com.codingshuttle.razorpay.common.dto.SettlementBankDetails;
+import com.codingshuttle.razorpay.common.enums.MerchantStatus;
 import com.codingshuttle.razorpay.common.exception.ResourceNotFoundException;
 import com.codingshuttle.razorpay.common.utl.RandomizerUtil;
-import com.codingshuttle.razorpay.merchant.api.MerchantWebhookApi;
+import com.codingshuttle.razorpay.merchant.api.MerchantLookupService;
 import com.codingshuttle.razorpay.merchant.dto.Response.WebhookConfigResponse;
 import com.codingshuttle.razorpay.common.dto.WebhookTarget;
 import com.codingshuttle.razorpay.merchant.dto.request.UpdateWebhookConfigRequest;
@@ -16,7 +18,6 @@ import com.codingshuttle.razorpay.merchant.repository.WebhookConfigRepository;
 import com.codingshuttle.razorpay.merchant.service.WebhookConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.encrypt.BytesEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class WebhookConfigServiceImpl implements WebhookConfigService, MerchantWebhookApi {
+public class WebhookConfigServiceImpl implements WebhookConfigService, MerchantLookupService {
 
 
     private final MerchantRepository merchantRepository;
@@ -140,6 +141,16 @@ private final BytesEncryptor bytesEncryptor;
                             new String(decryptedSecretBytes, StandardCharsets.UTF_8));
                 })
                 .toList();
+    }
+
+    @Override
+    public List<UUID> listActiveMerchantIds() {
+        return merchantRepository.findByStatus(MerchantStatus.ACTIVE).stream().map(m->m.getId()).toList();
+    }
+
+    @Override
+    public SettlementBankDetails getSettlementBankDetails(UUID merchantId) {
+        return null;
     }
 }
 

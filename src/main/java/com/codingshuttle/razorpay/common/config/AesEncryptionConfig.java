@@ -16,7 +16,7 @@ public class AesEncryptionConfig {
 
     @Value("${vault.master-key}")
     private String masterKey;
-
+//so impl
     @Bean
     public BytesEncryptor masterKeyEncryptor() {
         byte[] masterKeyBytes = Base64.getDecoder().decode(masterKey);
